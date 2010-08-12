@@ -53,7 +53,7 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 	},
 	onDataChange       : function() {
 		if (this.items.items.length < 3) {
-			this.createCardsNext();
+			this.createCards(-1);
 		}
 	},
 	getStore           : function() {
@@ -63,72 +63,44 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 		return this.items.items;
 	},
 	onBeforeCardSwitching : function(carousel, newCard, oldCard, index, anim) {
+		var card;
 		if (index > 1) {
 			var num = carousel.store.getCount();
 			if (this.items.items[index].recIndex < (num-1)) {
-				this.removeCard(this.items.items[0]);
+				card = this.items.items[0];
 			}
 		} else if (index === 0) {
-			if (this.items.items[index].recIndex > 0) { 
-				this.removeCard(this.items.items[2]);
+			if (this.items.items[index].recIndex > 0) {
+				card = this.items.items[2];
 			}
 		}
+		this.removeCard(card);
 	},
 	onCardSwitching    : function(carousel, newCard, oldCard, index, anim) {
-		if (index === 0) {
-			this.createCardsPrev();
-		} else {
-			var numRecords = this.store.getCount();
-			if (index < numRecords) {
-				this.createCardsNext();
-			}
-		}
+		this.createCards(index);
 	},
 	removeCard         : function(card) {
 		this.remove(card);
 	},
-	createCardsPrev    : function() {
+	createCards        : function(index) {
 		var numGet = 3-this.items.items.length;
 		var currCard = this.getActiveItem();
-		var currIndex = currCard.recIndex;
+		var currIndex = (Ext.isDefined(currCard)) ? currCard.recIndex : -1;
+		var multi = (index === 0) ? -1 : 1;
 		for (var i = 1; i <= numGet; i++) {
-			var rec = this.store.getAt(currIndex-i);
+			var rec = this.store.getAt(currIndex+(i*multi));
 			var tmpCard = {
 				title    : rec.get("title"),
 				html     : rec.get("description"),
-				recIndex : currIndex-i
+				recIndex : currIndex+(i*multi)
 			}
-			this.CardCreatePrev(tmpCard);
+			var insertHere = (numGet > 1) ? i-1 : (this.getActiveIndex() > 0) ? 2 : 0;
+			this.cardCreate(tmpCard, insertHere);
 		}
 	},
-	createCardsNext    : function(index) {
-		var numGet = 3-this.items.items.length;
-		var currCard = this.getActiveItem();
-		var currIndex = null;
-		if (Ext.isDefined(currCard)) {
-			currIndex = currCard.recIndex;
-		} else {
-			currIndex = -1;
-		}
-		for (var i = 1; i <= numGet; i++) {
-			var rec = this.store.getAt(currIndex+i);
-			var tmpCard = {
-				title    : rec.get("title"),
-				html     : rec.get("description"),
-				recIndex : currIndex+i
-			}
-			this.CardCreateNext(tmpCard);
-		}
-	},
-	CardCreatePrev   : function(card) {
+	cardCreate         : function(card, insertHere) {
 		if (Ext.isDefined(card)) {
-			this.insert(0, card);
-			this.doLayout();
-		}
-	},
-	CardCreateNext   : function(card) {
-		if (Ext.isDefined(card)) {
-			this.add(card);
+			this.insert(insertHere, card);
 			this.doLayout();
 		}
 	}
