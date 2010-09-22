@@ -7,9 +7,9 @@ Ext.regModel("Articles", {
 	]
 });
 
-Ext.ns("Ext.InfiniteCarousel");
+Ext.ns("Ext.ux");
 
-Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
+Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 	store              : null,
 	initComponent      : function() {
 		this.store  = new Ext.data.Store({
@@ -18,8 +18,7 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			proxy        : new Ext.data.AjaxProxy({
 				url    : this.store.url,
 				reader : {
-					type : "json",
-					root : "items"
+					type : "json"
 				}
 			})
 		});
@@ -46,7 +45,7 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			}
 		});
 		
-		Ext.InfiniteCarousel.superclass.initComponent.apply(this);
+		Ext.ux.InfiniteCarousel.superclass.initComponent.apply(this);
 	},
 	doRender           : function() {
 		this.store.load();
@@ -92,6 +91,7 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			var tmpCard = {
 				title    : rec.get("title"),
 				html     : rec.get("description"),
+				styleHtmlContent : true,
 				recIndex : currIndex+(i*multi)
 			}
 			var insertHere = (numGet > 1) ? i-1 : (this.getActiveIndex() > 0) ? 2 : 0;
@@ -106,4 +106,4 @@ Ext.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 	}
 });
 
-Ext.reg("infinitecarousel", Ext.InfiniteCarousel);
+Ext.reg("infinitecarousel", Ext.ux.InfiniteCarousel);
