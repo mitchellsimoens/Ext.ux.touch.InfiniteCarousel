@@ -1,12 +1,41 @@
 Ext.ns("news");
 
+Ext.regModel('TestModel', {
+	fields     : [
+        'company',
+        'price',
+        'change',
+        'pct',
+        'updated'
+	]
+});
+
+Ext.regModel("Pages", {
+	fields: [
+		{name : "id"       },
+		{name : "title"    },
+		{name : "html"     },
+		{name : "cmp"      }
+	]
+});
+
 news.Structure = [{
 	text : "Infinite Carousel demo",
 	leaf : true,
 	card : new Ext.ux.InfiniteCarousel({
-		store : {
-			url : "results.php"
-		}
+		defaults : {
+			cls : "demo-card"
+		},
+		store : new Ext.data.Store({
+			model        : "Pages",
+			filterOnLoad : false,
+			proxy        : new Ext.data.AjaxProxy({
+				url    : "results.php",
+				reader : {
+					type : "json"
+				}
+			})
+		})
 	})
 }];
 

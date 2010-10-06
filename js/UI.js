@@ -5,7 +5,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
     layout: 'card',
     items: [{
         cls: 'launchscreen',
-        html: '<div><img src="sencha.png" width="210" height="291" /><h1>Welcome to Sencha Touch</h1><p>This is a collection of Sencha Touch demos, extensions, and plug-ins craeated by Mitchell Simoens.<br /><br /><span>Sencha Touch &beta; (0.93)</span></p></div>'
+        html: '<div><img src="sencha.png" width="210" height="291" /><h1>Welcome to Sencha Touch</h1><p>This is a collection of Sencha Touch demos, extensions, and plug-ins created by Mitchell Simoens.<br /><br /><span>Sencha Touch &beta; (0.96)</span></p></div>'
     }],
     backText: 'Back',
     useTitleAsBackText: true,
