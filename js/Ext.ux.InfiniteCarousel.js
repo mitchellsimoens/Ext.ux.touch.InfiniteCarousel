@@ -3,7 +3,7 @@
     Site         : http://simoens.org/Sencha-Projects/demos/
     Contact Info : mitchellsimoens@gmail.com
     Purpose      : Creation of a Carousel to work with limited resources
-	
+
 	License      : GPL v3 (http://www.gnu.org/licenses/gpl.html)
     Warranty     : none
     Price        : free
@@ -19,9 +19,9 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 		this.on("beforeshow", this.doRender, this);
 		this.on("beforecardswitch", this.onBeforeCardSwitching, this);
 		this.on("cardswitch", this.onCardSwitching, this);
-		
+
 		this.store.on("datachanged", this.onDataChange, this);
-		
+
 		Ext.ux.InfiniteCarousel.superclass.initComponent.apply(this);
 	},
 	doRender           : function() {
@@ -53,7 +53,9 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 				card = this.items.items[2];
 			}
 		}
-		this.removeCard(card);
+		if (typeof card === "object") {
+			this.removeCard(card);
+		}
 	},
 	onCardSwitching    : function(carousel, newCard, oldCard, index, anim) {
 		this.createCards(index);
@@ -73,12 +75,12 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			},
 			cmp = eval(rec.get("cmp")),
 			cmp = Ext.isArray(cmp) ? cmp[0] : defaultCmp;
-		
+
 		Ext.applyIf(cmp, {
 			title    : title,
 			recIndex : recIndex
 		});
-		
+
 		return cmp;
 	},
 	createCards        : function(index) {
@@ -95,7 +97,7 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			var tmpCard = this.createCardCmp(rec, recIndex);
 			var insertHere = (numGet > 1) ? i-1 : (this.getActiveIndex() > 0) ? 2 : 0;
 			var card = this.cardCreate(tmpCard, insertHere);
-			
+
 			this.fireEvent("cardcreate", this, card, insertHere);
 		}
 	},
@@ -118,11 +120,11 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			add        = [],
 			numRecs    = this.store.getCount(),
 			focusIndex = index;
-		
+
 		if (difference === 0) {
 			return ;
 		}
-		
+
 		if (currIndex === 0) {
 			remove.push(this.getComponent(1));
 			remove.push(this.getComponent(2));
@@ -148,7 +150,7 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 			add[2] = this.store.getAt(index+1);
 			focusIndex = 1;
 		}
-		
+
 		for (var i = 0; i < remove.length; i++) {
 			this.remove(remove[i]);
 		}
@@ -157,7 +159,7 @@ Ext.ux.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 				if (this.fireEvent("beforecardcreate", this, add[i]) === false) {
 					return ;
 				}
-				var recIndex = add[i].get("id")-1,
+				var recIndex = this.store.indexOf(add[i]),
 					tmpCard  = this.createCardCmp(add[i], recIndex),
 					card     = this.cardCreate(tmpCard, i);
 				this.fireEvent("cardcreate", this, card, i);

@@ -66,7 +66,7 @@ $page_eight = "{
 			{ company : 'The Home Depot, Inc.',                price : 34.64, change : 0.35,  pct : 1.02,  updated : '9/1/2010' },
 			{ company : 'The Procter &#38; Gamble Company',    price : 61.91, change : 0.01,  pct : 0.02,  updated : '9/1/2010' },
 			{ company : 'United Technologies Corporation',     price : 63.26, change : 0.55,  pct : 0.88,  updated : '9/1/2010' },
-			{ company : 'Verizon Communications',              price : 35.57, change : 0.39,  pct : 1.11,  updated : '9/1/2010' },            
+			{ company : 'Verizon Communications',              price : 35.57, change : 0.39,  pct : 1.11,  updated : '9/1/2010' },
 			{ company : 'Wal-Mart Stores, Inc.',               price : 45.45, change : 0.73,  pct : 1.63,  updated : '9/1/2010' }
 		]
 	}),
@@ -109,6 +109,6 @@ $results[] = array("id" => 8,  "title" => "Card Eight", "cmp"  => "[".$page_eigh
 $results[] = array("id" => 9,  "title" => "Card Nine",  "html" => "<h1>Card Nine</h1>This is some dummy text");
 $results[] = array("id" => 10, "title" => "Card Ten",   "html" => "<h1>Card Ten</h1>This is some dummy text");
 
-echo json_encode($results);
+echo json_encode(array("success" => true, "total" => count($results), "cards" => $results));
 
 ?>
