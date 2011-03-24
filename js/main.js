@@ -18,7 +18,7 @@ Ext.setup({
 			]
 		});
 
-		new Ext.ux.InfiniteCarousel({
+		new Ext.ux.touch.InfiniteCarousel({
 			fullscreen : true,
 			defaults : {
 				cls : "demo-card"
