@@ -8,7 +8,7 @@ Ext.setup({
 				{name : "cmp"      }
 			]
 		});
-		Ext.regModel('TestModel', {
+		Ext.regModel('TouchGridPanel', {
 			fields     : [
 				'company',
 				'price',

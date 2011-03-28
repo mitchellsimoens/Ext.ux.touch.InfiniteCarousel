@@ -12,6 +12,10 @@ Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 		me.store.on( "datachanged",      me.onDataChanged,         me );
 
 		Ext.ux.touch.InfiniteCarousel.superclass.initComponent.apply(me);
+
+		if (me.store.getCount() > 0) {
+			me.onDataChanged();
+		}
 	},
 
 	getStore: function() {
@@ -79,7 +83,7 @@ Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
 	createCards: function(startIndex, append) {
 		var me       = this,
 			store    = me.getStore(),
-			currNum  = me.items.getCount(),
+			currNum  = (Ext.isDefined(me.items)) ? me.items.getCount() : 0,
 			numGet   = me.numCards - currNum,
 			endIndex = startIndex + numGet - 1,
 			recs     = store.getRange(startIndex, endIndex),

@@ -37,7 +37,7 @@ $page_five = "{
 $page_eight = "{
 	xtype       : 'touchgridpanel',
 	store       : new Ext.data.Store({
-		model : 'TestModel',
+		model : 'TouchGridPanel',
 		data  : [
 			{ company : '3m Co',                               price : 71.72, change : 0.02,  pct : 0.03,  updated : '9/1/2010' },
 			{ company : 'Alcoa Inc',                           price : 29.01, change : 0.42,  pct : 1.47,  updated : '9/1/2010' },
