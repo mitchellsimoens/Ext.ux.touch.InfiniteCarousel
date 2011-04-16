@@ -3,17 +3,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sencha Touch Demos - Mitchell Simoens</title>
+        <title>Sencha Touch Carousel</title>
 
 		<link rel="stylesheet" href="http://st/resources/css/sencha-touch.css" type="text/css">
-		<link rel="stylesheet" type="text/css" href="css/Ext.ux.TouchGridPanel.css" />
-
 		<script type="text/javascript" src="http://st/sencha-touch-debug.js"></script>
 
-		<script type="text/javascript" src="js/Ext.ux.touch.InfiniteCarousel.js"></script>
-		<script type="text/javascript" src="js/Ext.ux.TouchGridPanel.js"></script>
+		<script type="text/javascript" src="Ext.ux.touch.InfiniteCarousel.js"></script>
 
-		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript">
+Ext.setup({
+    onReady: function() {
+
+Ext.regModel('Pages', {
+    fields : [ 'cmp' ]
+});
+
+var store = new Ext.data.Store({
+    model : 'Pages',
+    data  : [
+        { cmp : '{ "html" : "Page Index : 1" }' }, //xtype defaults to panel
+        { cmp : '{ "html" : "Page Index : 2" }' },
+        { cmp : '{ "html" : "Page Index : 3" }' },
+        { cmp : '{ "html" : "Page Index : 4" }' },
+        { cmp : '{ "html" : "Page Index : 5" }' }
+    ]
+});
+
+new Ext.ux.touch.InfiniteCarousel({
+    fullscreen : true,
+    store      : store
+});
+
+
+
+    }
+});
+		</script>
     </head>
     <body>
     </body>
