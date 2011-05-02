@@ -3,7 +3,7 @@ Ext.ns('Ext.ux.touch');
 Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
     // @private
     // Keeps track of the current page
-    activePage : 0,
+    activePage : 3,
     /**
      * @cfg {Boolean} allowWrap
      * Allow to wrap around when at end or beginning
@@ -23,6 +23,9 @@ Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
      */
     numPages   : 3,
 
+    //in case xtype is not specified in cmpField of Model instance
+    defaultType : 'panel',
+
     // @private
     initComponent: function() {
         var me       = this,
@@ -35,10 +38,11 @@ Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
             me.numPages--;
         }
 
-        Ext.apply(me, {
-            defaultType : 'panel',                                      //in case xtype is not specified in cmpField of Model instance
-            items : me.buildItems()
-        });
+        if (store.getCount() > 0) {
+            me.items = me.buildItems();
+        } else {
+            store.on('datachanged', me.handleStoreDataChanged, me);
+        }
 
         //Iterates through the items to find item that is marked to start active.
         //This is because if you set activeItem to something other than 0, it will start on that item
@@ -50,7 +54,26 @@ Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
             i++;
         });
 
-        me.supr().initComponent.call(me);                               //call the superclass to not break Ext.Carousel
+        Ext.ux.touch.InfiniteCarousel.superclass.initComponent.call(me);
+    },
+
+    handleStoreDataChanged: function(store) {
+        var me = this,
+            i  = 0;
+
+        me.removeAll();
+
+        var items = me.buildItems();
+        me.add(items);
+        me.doLayout();
+
+        me.items.each(function(item) {
+            if (item.makeActive) {
+                me.setActiveItem(item);                                 //make this item active
+            }
+            delete item.makeActive;                                     //remove unneeded property on Component
+            i++;
+        });
     },
 
     // @private

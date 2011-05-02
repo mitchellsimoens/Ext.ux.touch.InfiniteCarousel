@@ -20,13 +20,17 @@ Ext.regModel('Pages', {
 
 var store = new Ext.data.Store({
     model : 'Pages',
-    data  : [
-        { cmp : '{ "html" : "Page Index : 1" }' }, //xtype defaults to panel
-        { cmp : '{ "html" : "Page Index : 2" }' },
-        { cmp : '{ "html" : "Page Index : 3" }' },
-        { cmp : '{ "html" : "Page Index : 4" }' },
-        { cmp : '{ "html" : "Page Index : 5" }' }
-    ]
+    loadStaticData: function() {
+        var data = [
+            { cmp : '{ "xtype" : "panel", "html" : "Page Index : 1" }' }, //xtype defaults to panel
+            { cmp : '{ "xtype" : "panel", "html" : "Page Index : 2" }' },
+            { cmp : '{ "xtype" : "panel", "html" : "Page Index : 3" }' },
+            { cmp : '{ "xtype" : "panel", "html" : "Page Index : 4" }' },
+            { cmp : '{ "xtype" : "panel", "html" : "Page Index : 5" }' }
+        ];
+
+        this.loadData(data);
+    }
 });
 
 new Ext.ux.touch.InfiniteCarousel({
@@ -34,7 +38,9 @@ new Ext.ux.touch.InfiniteCarousel({
     store      : store
 });
 
-
+setTimeout(function() {
+    store.loadStaticData();
+}, 1000);
 
     }
 });
