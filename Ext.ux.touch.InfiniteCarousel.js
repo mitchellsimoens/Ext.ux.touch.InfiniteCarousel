@@ -3,7 +3,7 @@ Ext.ns('Ext.ux.touch');
 Ext.ux.touch.InfiniteCarousel = Ext.extend(Ext.Carousel, {
     // @private
     // Keeps track of the current page
-    activePage : 3,
+    activePage : 0,
     /**
      * @cfg {Boolean} allowWrap
      * Allow to wrap around when at end or beginning
